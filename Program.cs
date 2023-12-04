@@ -50,16 +50,5 @@ app.MapGet("/api/hello", () =>
     return new { Message = "Welcome to DeShawn's Dog Walking" };
 });
 
-app.MapGet("/api/dogs", () =>
-{
-    return dogs.Select((dog) => new DogDTO
-    {
-        // id, name, city, imageUrl
-        Id = dog.Id,
-        Name = dog.Name,
-        CityId = dog.CityId,
-        ImageURL = dog.ImageURL
-    });
-});
 
 app.Run();
