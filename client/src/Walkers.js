@@ -5,18 +5,23 @@ import { CityDropdown } from "./CityDropdown"
 export const Walkers = () => {
 
     const [walkers, setWalkers] = useState([])
+    const [walkersToDisplay, setWalkersToDisplay] = useState([])
 
     useEffect(() => {
-        getWalkers().then((data) => setWalkers(data))
+        getWalkers().then((data) => {
+            setWalkers(data)
+            setWalkersToDisplay(data)
+        })
     }, [])
+
     return (
         <>
-            <CityDropdown />
+            <CityDropdown walkers={walkers} setWalkersToDisplay={setWalkersToDisplay} />
             <ul>
-                {walkers.map((walker) => (
-                    <li>
-                        <img className="h-40 w-40" src={walker.imageURL} alt="" />
-                        <p>{walker.name}</p>
+                {walkersToDisplay.map((walker, index) => (
+                    <li key={index}>
+                        <img className="h-40 w-40" src={walker?.imageURL} alt="" />
+                        <p>{walker?.name}</p>
                     </li>
                 ))}
             </ul>

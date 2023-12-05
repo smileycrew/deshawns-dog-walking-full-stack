@@ -1,3 +1,4 @@
+namespace DeshawnsAPI.Models;
 public class Walker
 {
     public int Id { get; set; }

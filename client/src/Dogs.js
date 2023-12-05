@@ -8,8 +8,8 @@ export const Dogs = () => {
     }, [])
     return (
         <ul>
-            {dogs.map((dog) => (
-                <li>
+            {dogs.map((dog, index) => (
+                <li key={index}>
                     <img className="h-40 w-40" src={dog.imageURL} alt="" />
                     <p>{dog.name}</p>
                 </li>

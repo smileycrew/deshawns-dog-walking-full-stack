@@ -1,5 +1,5 @@
-namespace DeshawnsAPI.Models;
-public class WalkerCity
+namespace DeshawnsAPI.Models.DTOs;
+public class WalkerCityDTO
 {
     public int Id { get; set; }
     public int WalkerId { get; set; }
