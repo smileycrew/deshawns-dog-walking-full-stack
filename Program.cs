@@ -24,6 +24,11 @@ List<City> cities = new List<City>()
     {
         Id = 1,
         Name = "Nashville"
+    },
+    new City()
+    {
+        Id = 2,
+        Name = "White House"
     }
 };
 List<Walker> walkers = new List<Walker>()
@@ -93,6 +98,15 @@ app.MapGet("/api/walkers", () =>
         Id = walker.Id,
         Name = walker.Name,
         ImageURL = walker.ImageURL
+    });
+});
+// get cities endpoint
+app.MapGet("/api/cities", () =>
+{
+    return cities.Select((city) => new CityDTO
+    {
+        Id = city.Id,
+        Name = city.Name
     });
 });
 // run app
