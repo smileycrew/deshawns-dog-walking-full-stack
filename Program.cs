@@ -26,6 +26,30 @@ List<City> cities = new List<City>()
         Name = "Nashville"
     }
 };
+List<Walker> walkers = new List<Walker>()
+{
+    new Walker()
+    {
+        // id, name, image url
+        Id = 2,
+        Name = "Bruno Salvadori",
+        ImageURL = "https://images.pexels.com/photos/2269872/pexels-photo-2269872.jpeg?auto=compress&cs=tinysrgb&w=800"
+    },
+    new Walker()
+    {
+        // id, name, image url
+        Id = 2,
+        Name = "Tu Nguyen",
+        ImageURL = "https://images.pexels.com/photos/1520760/pexels-photo-1520760.jpeg?auto=compress&cs=tinysrgb&w=800"
+    },
+    new Walker()
+    {
+        // id, name, image url
+        Id = 3,
+        Name = "Amit Brokde",
+        ImageURL = "https://images.pexels.com/photos/17136147/pexels-photo-17136147/free-photo-of-indian-traditional-beard-man.jpeg?auto=compress&cs=tinysrgb&w=800"
+    },
+};
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -50,5 +74,16 @@ app.MapGet("/api/hello", () =>
     return new { Message = "Welcome to DeShawn's Dog Walking" };
 });
 
+app.MapGet("/api/dogs", () =>
+{
+    return dogs.Select((dog) => new DogDTO
+    {
+        // id, name, city, imageUrl
+        Id = dog.Id,
+        Name = dog.Name,
+        CityId = dog.CityId,
+        ImageURL = dog.ImageURL
+    });
+});
 
 app.Run();
