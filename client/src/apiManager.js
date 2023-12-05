@@ -4,5 +4,10 @@ export const getGreeting = async () => {
 };
 
 export const getDogs = () => {
-  const response = fetch("/api/dogs")
+  const dogs = fetch("/api/dogs").then((response) => {
+    console.log("🚀 ~ file: apiManager.js:8 ~ getDogs ~ dogs:", dogs)
+    return response.json()
+  })
+  
+  return dogs
 }
