@@ -1,11 +1,28 @@
 import { useEffect, useState } from "react"
+import { getCities, getWalkerCities } from "./apiManager"
 
-export const CityDropdown = () => {
+export const CityDropdown = ({ walkers, setWalkersToDisplay }) => {
+
     const [cities, setCities] = useState([])
-    useEffect(() => { }, [])
+
+    const handleChosenCity = (event) => {
+        const cityId = event.target.value * 1
+        getWalkerCities(cityId).then((data) => {
+            const filteredWalkers = walkers.filter((walker) => data.some((datum) => datum.walkerId === walker.id))
+            setWalkersToDisplay(filteredWalkers)
+        })
+    }
+
+    useEffect(() => {
+        getCities().then((data) => setCities(data))
+    }, [])
+
     return (
-        <select>
+        <select onChange={handleChosenCity}>
             <option>select a city</option>
+            {cities.map((city, index) => (
+                <option key={index} value={city.id}>{city.name}</option>
+            ))}
         </select>
     )
 }
