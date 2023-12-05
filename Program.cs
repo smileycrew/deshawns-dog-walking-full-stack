@@ -68,12 +68,12 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+// greetings endpoint
 app.MapGet("/api/hello", () =>
 {
     return new { Message = "Welcome to DeShawn's Dog Walking" };
 });
-
+// get dogs endpoint
 app.MapGet("/api/dogs", () =>
 {
     return dogs.Select((dog) => new DogDTO
@@ -85,5 +85,15 @@ app.MapGet("/api/dogs", () =>
         ImageURL = dog.ImageURL
     });
 });
-
+// get walkers endpoint
+app.MapGet("/api/walkers", () =>
+{
+    return walkers.Select((walker) => new WalkerDTO
+    {
+        Id = walker.Id,
+        Name = walker.Name,
+        ImageURL = walker.ImageURL
+    });
+});
+// run app
 app.Run();
