@@ -21,3 +21,13 @@ export const getCities = () => {
 export const getWalkerCities = (cityId) => {
   return fetch(`/api/walker-cities/${cityId}`).then((response) => response.json())
 }
+// add city to api
+export const addCity = (cityObject) => {
+  return fetch("/api/cities/post", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(cityObject)
+  })
+}

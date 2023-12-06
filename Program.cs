@@ -23,12 +23,12 @@ List<City> cities = new List<City>()
     new City()
     {
         Id = 1,
-        Name = "Nashville"
+        Name = "nashville"
     },
     new City()
     {
         Id = 2,
-        Name = "White House"
+        Name = "white house"
     }
 };
 List<Walker> walkers = new List<Walker>()
@@ -141,5 +141,11 @@ app.MapGet("/api/walker-cities/{cityId}", (int cityId) =>
         CityId = walkerCity.CityId,
     });
 });
-// // run app
+// add city endpoint
+app.MapPost("/api/cities/post", (City cityToAdd) =>
+{
+    cityToAdd.Id = cities.Max((city) => city.Id) + 1;
+    cities.Add(cityToAdd);
+});
+// run app
 app.Run();
