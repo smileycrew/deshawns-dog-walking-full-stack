@@ -31,3 +31,7 @@ export const addCity = (cityObject) => {
     body: JSON.stringify(cityObject)
   })
 }
+// get dog-walker
+export const getDogWalker = (dogWalkerId) => {
+  return fetch(`/api/dog-walker/${dogWalkerId}`).then((response) => response.json())
+}
