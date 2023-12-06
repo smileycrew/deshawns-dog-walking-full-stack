@@ -141,5 +141,5 @@ app.MapGet("/api/walker-cities/{cityId}", (int cityId) =>
         CityId = walkerCity.CityId,
     });
 });
-// run app
+// // run app
 app.Run();
