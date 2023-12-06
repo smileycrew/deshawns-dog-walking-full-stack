@@ -1,6 +1,6 @@
 using DeshawnsAPI.Models;
 using DeshawnsAPI.Models.DTOs;
-
+// starting list
 List<Dog> dogs = new List<Dog>()
 {
     new Dog()
@@ -76,6 +76,21 @@ List<WalkerCity> walkerCities = new List<WalkerCity>()
         CityId = 2
     }
 };
+List<DogWalker> dogWalkers = new List<DogWalker>()
+{
+    new DogWalker()
+    {
+        Id = 1,
+        DogId = 1,
+        WalkerId = 1
+    },
+    new DogWalker()
+    {
+        Id = 2,
+        DogId = 2,
+        WalkerId = 2
+    }
+};
 // not sure what this is
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
@@ -146,6 +161,20 @@ app.MapPost("/api/cities/post", (City cityToAdd) =>
 {
     cityToAdd.Id = cities.Max((city) => city.Id) + 1;
     cities.Add(cityToAdd);
+});
+// get dog walker endpoint
+app.MapGet("/api/dog-walker/{id}", (int id) =>
+{
+    // first we need to find the dog walker using id
+    DogWalker dogWalker = dogWalkers.Find((dogWalker) => dogWalker.Id == id);
+    // then we need to return it to the user
+    return new DogWalkerDTO
+    {
+        Id = dogWalker.Id,
+        DogId = dogWalker.DogId,
+        WalkerId = dogWalker.WalkerId
+    };
+    // if dog walker doesnt exist return a code to the user
 });
 // run app
 app.Run();
