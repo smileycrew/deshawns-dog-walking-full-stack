@@ -5,6 +5,6 @@ public class DogDTO
     public string Name { get; set; }
     public int CityId { get; set; }
     public string ImageURL { get; set; }
-    public int WalkerId { get; set; }
+    public int? WalkerId { get; set; }
     public WalkerDTO Walker { get; set; }
 }

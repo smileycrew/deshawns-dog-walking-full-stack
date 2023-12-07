@@ -55,3 +55,9 @@ export const deleteDog = (dogId) => {
     method: "DELETE"
   })
 }
+// delete walker from api
+export const deleteWalker = (walkerId) => {
+  return fetch(`/api/walker/delete/${walkerId}`, {
+    method: "DELETE"
+  })
+}

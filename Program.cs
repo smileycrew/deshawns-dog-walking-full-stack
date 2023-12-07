@@ -113,7 +113,8 @@ app.MapGet("/api/dogs", () =>
         Id = dog.Id,
         Name = dog.Name,
         CityId = dog.CityId,
-        ImageURL = dog.ImageURL
+        ImageURL = dog.ImageURL,
+        WalkerId = dog.WalkerId
     });
 });
 // get walkers endpoint
@@ -219,6 +220,15 @@ app.MapDelete("/api/walker/delete/{walkerId}", (int walkerId) =>
         return Results.BadRequest();
     }
     walkers.Remove(walkers.Find((walker) => walker.Id == walkerToDelete.Id));
+    dogs = dogs.Select((dog) =>
+    {
+        if (dog.WalkerId == walkerToDelete.Id)
+        {
+            dog.WalkerId = null;
+            return dog;
+        }
+        return dog;
+    }).ToList();
     return Results.NoContent();
 });
 // run app

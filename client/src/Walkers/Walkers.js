@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { getWalkers } from "../apiManager"
 import { CityDropdown } from "./CityDropdown"
+import { DeleteWalker } from "./DeleteWalker"
 // import { AddDogWalker } from "../AddDogWalker"
 
 export const Walkers = () => {
@@ -8,11 +9,15 @@ export const Walkers = () => {
     const [walkers, setWalkers] = useState([])
     const [walkersToDisplay, setWalkersToDisplay] = useState([])
 
-    useEffect(() => {
+    const handleGetWalkers = () => {
         getWalkers().then((data) => {
             setWalkers(data)
             setWalkersToDisplay(data)
         })
+    }
+
+    useEffect(() => {
+        handleGetWalkers()
     }, [])
 
     return (
@@ -24,6 +29,7 @@ export const Walkers = () => {
                         <img className="h-40 w-40" src={walker?.imageURL} alt="" />
                         <p>{walker?.name}</p>
                         {/* <AddDogWalker walkerId={walker.id} /> */}
+                        <DeleteWalker walkerId={walker.id} handleGetWalkers={handleGetWalkers} />
                     </li>
                 ))}
             </ul>
