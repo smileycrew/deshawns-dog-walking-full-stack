@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react"
-import { getDogs } from "../apiManager"
+import { assignDog, getDogs } from "../apiManager"
+import { useNavigate } from "react-router-dom"
 
 export const DogDropdown = ({ walkerAndCities }) => {
+
+    const navigate = useNavigate()
 
     const [dogs, setDogs] = useState([])
 
@@ -16,6 +19,7 @@ export const DogDropdown = ({ walkerAndCities }) => {
     }
     const handleAssignDog = (event) => {
         const dogToAssign = dogs.find((dog) => dog.id === event.target.value * 1)
+        assignDog(dogToAssign.id, walkerAndCities.id).then((data) => navigate(`/dog/${data.id}`))
     }
 
     useEffect(() => { handleGetDogs() }, [])
