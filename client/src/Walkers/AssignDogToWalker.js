@@ -16,7 +16,7 @@ export const AssignDogToWalker = ({ walkerId }) => {
     return (
         <>
             {viewDogs === false ?
-                <button className="bg-blue-500 hover:bg-blue-400 rounded-md text-white w-36" onClick={handleViewDogs}>add dog to walker</button> :
+                <button className="bg-blue-500 hover:bg-blue-400 rounded-md text-white w-24" onClick={handleViewDogs}>add dog</button> :
                 <DogDropdown walkerAndCities={walkerAndCities} />
             }
         </>
