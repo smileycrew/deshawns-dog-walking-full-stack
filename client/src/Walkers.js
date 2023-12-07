@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { getWalkers } from "./apiManager"
 import { CityDropdown } from "./CityDropdown"
+import { AddDogWalker } from "./AddDogWalker"
 
 export const Walkers = () => {
 
@@ -22,6 +23,7 @@ export const Walkers = () => {
                     <li key={index}>
                         <img className="h-40 w-40" src={walker?.imageURL} alt="" />
                         <p>{walker?.name}</p>
+                        <AddDogWalker walkerId={walker.id} />
                     </li>
                 ))}
             </ul>

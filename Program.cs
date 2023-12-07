@@ -8,14 +8,16 @@ List<Dog> dogs = new List<Dog>()
         Id = 1,
         Name = "Em Hopper",
         CityId = 1,
-        ImageURL = "https://images.pexels.com/photos/3487734/pexels-photo-3487734.jpeg?auto=compress&cs=tinysrgb&w=800"
+        ImageURL = "https://images.pexels.com/photos/3487734/pexels-photo-3487734.jpeg?auto=compress&cs=tinysrgb&w=800",
+        WalkerId = 1
     },
     new Dog()
     {
         Id = 2,
         Name = "Dorte Fjalland",
         CityId = 2,
-        ImageURL = "https://images.pexels.com/photos/179221/pexels-photo-179221.jpeg?auto=compress&cs=tinysrgb&w=800"
+        ImageURL = "https://images.pexels.com/photos/179221/pexels-photo-179221.jpeg?auto=compress&cs=tinysrgb&w=800",
+        WalkerId = 2
     }
 };
 List<City> cities = new List<City>()
@@ -74,21 +76,11 @@ List<WalkerCity> walkerCities = new List<WalkerCity>()
         Id = 3,
         WalkerId = 2,
         CityId = 2
-    }
-};
-List<DogWalker> dogWalkers = new List<DogWalker>()
-{
-    new DogWalker()
+    }, new WalkerCity()
     {
-        Id = 1,
-        DogId = 1,
-        WalkerId = 1
-    },
-    new DogWalker()
-    {
-        Id = 2,
-        DogId = 2,
-        WalkerId = 2
+        Id = 4,
+        WalkerId = 3,
+        CityId = 1
     }
 };
 // not sure what this is
@@ -97,16 +89,15 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
+// no idea what this is
 var app = builder.Build();
-
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+// no idea what this is
 app.UseHttpsRedirection();
 // greetings endpoint
 app.MapGet("/api/hello", () =>
@@ -156,25 +147,57 @@ app.MapGet("/api/walker-cities/{cityId}", (int cityId) =>
         CityId = walkerCity.CityId,
     });
 });
+// get dog with walker
+app.MapGet("/api/dog/{dogId}", (int dogId) =>
+{
+    Dog dog = dogs.Find((dog) => dog.Id == dogId);
+    Walker walker = walkers.Find((walker) => walker.Id == dog.WalkerId);
+    return new DogDTO
+    {
+        // id, name, cityId, imageURL, walkerId, walker
+        Id = dog.Id,
+        Name = dog.Name,
+        CityId = dog.CityId,
+        ImageURL = dog.ImageURL,
+        WalkerId = dog.WalkerId,
+        Walker = walker == null ? null : new WalkerDTO
+        {
+            Id = walker.Id,
+            Name = walker.Name,
+            ImageURL = walker.ImageURL
+        }
+    };
+});
 // add city endpoint
 app.MapPost("/api/cities/post", (City cityToAdd) =>
 {
     cityToAdd.Id = cities.Max((city) => city.Id) + 1;
     cities.Add(cityToAdd);
 });
-// get dog walker endpoint
-app.MapGet("/api/dog-walker/{id}", (int id) =>
+// add dog endpoint
+app.MapPost("/api/dog/post", (Dog dogToAdd) =>
 {
-    // first we need to find the dog walker using id
-    DogWalker dogWalker = dogWalkers.Find((dogWalker) => dogWalker.Id == id);
-    // then we need to return it to the user
-    return new DogWalkerDTO
+    if (dogToAdd.Name == "")
     {
-        Id = dogWalker.Id,
-        DogId = dogWalker.DogId,
-        WalkerId = dogWalker.WalkerId
-    };
-    // if dog walker doesnt exist return a code to the user
+        return Results.BadRequest();
+    }
+    else if (cities.Find((city) => city.Id == dogToAdd.CityId) == null)
+    {
+        return Results.BadRequest();
+    }
+    else if (dogToAdd.ImageURL == "")
+    {
+        return Results.BadRequest();
+    }
+    dogToAdd.Id = dogs.Max((dog) => dog.Id) + 1;
+    dogs.Add(dogToAdd);
+    return Results.Created($"/dogs/{dogToAdd.Id}", new DogDTO
+    {
+        Id = dogToAdd.Id,
+        Name = dogToAdd.Name,
+        CityId = dogToAdd.CityId,
+        ImageURL = dogToAdd.ImageURL
+    });
 });
 // run app
 app.Run();

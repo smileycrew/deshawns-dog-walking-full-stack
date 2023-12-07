@@ -4,11 +4,15 @@ import { Link } from "react-router-dom"
 
 export const Dogs = () => {
     const [dogs, setDogs] = useState([])
+
+    const handleGetDogs = () => { getDogs().then((data) => { setDogs(data) }) }
+
     useEffect(() => {
-        getDogs().then((data) => { setDogs(data) })
+        handleGetDogs()
     }, [])
     return (
         <ul>
+            <Link to={"/dog/add"}><button className="bg-green-500 hover:bg-green-400 rounded text-white w-24">add dog</button></Link>
             {dogs.map((dog, index) => (
                 <li key={index}>
                     <img className="h-40 w-40" src={dog.imageURL} alt="" />

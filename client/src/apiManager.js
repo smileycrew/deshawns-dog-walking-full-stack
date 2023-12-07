@@ -32,6 +32,20 @@ export const addCity = (cityObject) => {
   })
 }
 // get dog-walker
-export const getDogWalker = (dogWalkerId) => {
-  return fetch(`/api/dog-walker/${dogWalkerId}`).then((response) => response.json())
+export const getDog = (dogId) => {  
+  return fetch(`/api/dog/${dogId}`).then((response) => response.json())
+}
+// get dogs with walkers from api
+// export const getDogsWithWalkers = () => {
+//   return fetch("/api/dogs-with-walkers").then((response) => response.json())
+// }
+// add dog to api
+export const addDog = (dogObject) => {
+  return fetch("/api/dog/post", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(dogObject)
+  }).then((response) => response.json())
 }
