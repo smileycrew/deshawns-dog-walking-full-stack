@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { addCity, getCities } from "./apiManager"
+import { addCity, getCities } from "../apiManager"
 
 export const Cities = () => {
 

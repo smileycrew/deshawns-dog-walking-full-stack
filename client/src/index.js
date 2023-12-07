@@ -5,10 +5,10 @@ import App from "./App";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import reportWebVitals from "./reportWebVitals";
 import Home from "./Home";
-import { Walkers } from "./Walkers";
-import { Cities } from "./Cities";
-import { DogDetail } from "./DogDetail";
-import { AddDog } from "./AddDog";
+import { Walkers } from "./Walkers/Walkers";
+import { Cities } from "./Cities/Cities";
+import { DogDetail } from "./Dogs/DogDetail";
+import { AddDog } from "./Dogs/AddDog";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(

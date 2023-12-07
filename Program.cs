@@ -199,5 +199,16 @@ app.MapPost("/api/dog/post", (Dog dogToAdd) =>
         ImageURL = dogToAdd.ImageURL
     });
 });
+// remove dog endpoint
+app.MapDelete("/api/dog/delete/{dogId}", (int dogId) =>
+{
+    Dog dogToDelete = dogs.Find((dog) => dog.Id == dogId);
+    if (dogToDelete == null)
+    {
+        return Results.BadRequest();
+    }
+    dogs.Remove(dogs.Find((dog) => dog.Id == dogToDelete.Id));
+    return Results.NoContent();
+});
 // run app
 app.Run();

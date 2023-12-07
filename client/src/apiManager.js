@@ -32,7 +32,7 @@ export const addCity = (cityObject) => {
   })
 }
 // get dog-walker
-export const getDog = (dogId) => {  
+export const getDog = (dogId) => {
   return fetch(`/api/dog/${dogId}`).then((response) => response.json())
 }
 // get dogs with walkers from api
@@ -48,4 +48,10 @@ export const addDog = (dogObject) => {
     },
     body: JSON.stringify(dogObject)
   }).then((response) => response.json())
+}
+// delete dog from api
+export const deleteDog = (dogId) => {
+  return fetch(`/api/dog/delete/${dogId}`, {
+    method: "DELETE"
+  })
 }

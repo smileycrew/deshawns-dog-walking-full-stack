@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { getCities, getWalkerCities } from "./apiManager"
+import { getCities, getWalkerCities } from "../apiManager"
 
 export const CityDropdown = ({ walkers, setWalkersToDisplay }) => {
 

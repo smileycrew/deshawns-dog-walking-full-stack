@@ -1,4 +1,4 @@
-import { getDog } from "./apiManager"
+import { getDog } from "../apiManager"
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 
