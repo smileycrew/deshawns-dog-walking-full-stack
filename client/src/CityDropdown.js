@@ -13,8 +13,10 @@ export const CityDropdown = ({ walkers, setWalkersToDisplay }) => {
         })
     }
 
+    const handleFetchCities = () => { getCities().then((data) => setCities(data)) }
+
     useEffect(() => {
-        getCities().then((data) => setCities(data))
+        handleFetchCities()
     }, [])
 
     return (
