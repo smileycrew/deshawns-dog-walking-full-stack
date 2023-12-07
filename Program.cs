@@ -3,6 +3,7 @@ using DeshawnsAPI.Models.DTOs;
 // starting list
 List<Dog> dogs = new List<Dog>()
 {
+    // id, name, cityId, imageURL, walkerId
     new Dog()
     {
         Id = 1,
@@ -230,6 +231,25 @@ app.MapDelete("/api/walker/delete/{walkerId}", (int walkerId) =>
         return dog;
     }).ToList();
     return Results.NoContent();
+});
+// assign dog to a walker endpoint
+app.MapPost("/api/dog/{dogId}/assign/{walkerId}", (int dogId, int walkerId) =>
+{
+    Dog dogToUpdate = dogs.Find((dog) => dog.Id == dogId);
+    if (dogToUpdate == null)
+    {
+        return Results.BadRequest();
+    }
+    dogToUpdate.WalkerId = walkerId;
+    return Results.Ok(new DogDTO
+    {
+        // id, name, cityId, imageURL, walkerId
+        Id = dogToUpdate.Id,
+        Name = dogToUpdate.Name,
+        CityId = dogToUpdate.CityId,
+        ImageURL = dogToUpdate.ImageURL,
+        WalkerId = dogToUpdate.WalkerId
+    });
 });
 // run app
 app.Run();
