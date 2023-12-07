@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { addDog, getCities } from "./apiManager"
+import { addDog, getCities } from "../apiManager"
 import { useNavigate } from "react-router-dom"
 
 export const AddDog = () => {
