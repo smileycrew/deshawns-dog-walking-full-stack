@@ -199,7 +199,7 @@ app.MapPost("/api/dog/post", (Dog dogToAdd) =>
         ImageURL = dogToAdd.ImageURL
     });
 });
-// remove dog endpoint
+// delete dog endpoint
 app.MapDelete("/api/dog/delete/{dogId}", (int dogId) =>
 {
     Dog dogToDelete = dogs.Find((dog) => dog.Id == dogId);
@@ -208,6 +208,17 @@ app.MapDelete("/api/dog/delete/{dogId}", (int dogId) =>
         return Results.BadRequest();
     }
     dogs.Remove(dogs.Find((dog) => dog.Id == dogToDelete.Id));
+    return Results.NoContent();
+});
+// delete walker endpoint
+app.MapDelete("/api/walker/delete/{walkerId}", (int walkerId) =>
+{
+    Walker walkerToDelete = walkers.Find((walker) => walker.Id == walkerId);
+    if (walkerToDelete == null)
+    {
+        return Results.BadRequest();
+    }
+    walkers.Remove(walkers.Find((walker) => walker.Id == walkerToDelete.Id));
     return Results.NoContent();
 });
 // run app
