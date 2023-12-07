@@ -35,10 +35,6 @@ export const addCity = (cityObject) => {
 export const getDog = (dogId) => {
   return fetch(`/api/dog/${dogId}`).then((response) => response.json())
 }
-// get dogs with walkers from api
-// export const getDogsWithWalkers = () => {
-//   return fetch("/api/dogs-with-walkers").then((response) => response.json())
-// }
 // add dog to api
 export const addDog = (dogObject) => {
   return fetch("/api/dog/post", {
@@ -60,4 +56,7 @@ export const deleteWalker = (walkerId) => {
   return fetch(`/api/walker/delete/${walkerId}`, {
     method: "DELETE"
   })
+}
+export const getWalkerAndCities = (walkerId) => {
+  return fetch()
 }

@@ -60,6 +60,7 @@ List<Walker> walkers = new List<Walker>()
 };
 List<WalkerCity> walkerCities = new List<WalkerCity>()
 {
+    // id, walkerId, cityId
     new WalkerCity()
     {
         Id = 1,
@@ -249,6 +250,30 @@ app.MapPost("/api/dog/{dogId}/assign/{walkerId}", (int dogId, int walkerId) =>
         CityId = dogToUpdate.CityId,
         ImageURL = dogToUpdate.ImageURL,
         WalkerId = dogToUpdate.WalkerId
+    });
+});
+// get walker and cities (walkerId)
+app.MapGet("/api/walker-and-cities/{walkerId}", (int walkerId) =>
+{
+    Walker walkerToSend = walkers.Find((walker) => walker.Id == walkerId);
+    if (walkerToSend == null)
+    {
+        return Results.NotFound();
+    }
+    List<WalkerCity> filteredWalkerCities = walkerCities.Where((walkerCity) => walkerCity.WalkerId == walkerToSend.Id).ToList();
+    return Results.Ok(new WalkerDTO
+    {
+        // id, name, image url
+        Id = walkerToSend.Id,
+        Name = walkerToSend.Name,
+        ImageURL = walkerToSend.ImageURL,
+        WalkerCities = filteredWalkerCities.Select((walkerCity) => new WalkerCityDTO
+        {
+            // id, walkerId, cityId
+            Id = walkerCity.Id,
+            WalkerId = walkerCity.WalkerId,
+            CityId = walkerCity.CityId
+        }).ToList()
     });
 });
 // run app
