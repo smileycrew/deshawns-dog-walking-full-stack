@@ -1,11 +1,19 @@
 import { useEffect, useState } from "react"
 import { getDogs } from "../apiManager"
 
-export const DogDropdown = () => {
+export const DogDropdown = ({ walkerAndCities }) => {
+    console.log("🚀 ~ file: DogDropdown.js:5 ~ DogDropdown ~ walkerId:", walkerAndCities.id)
 
     const [dogs, setDogs] = useState([])
 
-    const handleGetDogs = () => { getDogs().then((data) => setDogs(data)) }
+    const handleGetDogs = () => {
+        getDogs().then((data) => {
+            const filteredDogs = data.filter((datum) =>
+                walkerAndCities.walkerCities.some((walkerCity) => walkerCity.cityId === datum.cityId && datum.walkerId !== walkerAndCities.id)
+            )
+            setDogs(filteredDogs)
+        })
+    }
 
     useEffect(() => { handleGetDogs() }, [])
 

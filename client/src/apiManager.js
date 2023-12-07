@@ -58,5 +58,5 @@ export const deleteWalker = (walkerId) => {
   })
 }
 export const getWalkerAndCities = (walkerId) => {
-  return fetch()
+  return fetch(`/api/walker-and-cities/${walkerId}`).then((response) => response.json())
 }
