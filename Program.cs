@@ -276,6 +276,7 @@ app.MapGet("/api/walker-and-cities/{walkerId}", (int walkerId) =>
         }).ToList()
     });
 });
+// get dog and assign the walkerId
 app.MapGet("/api/dog/{dogId}/walker/{walkerId}", (int dogId, int walkerId) =>
 {
     Dog dogToUpdate = dogs.Find((dog) => dog.Id == dogId);
@@ -297,6 +298,34 @@ app.MapGet("/api/dog/{dogId}/walker/{walkerId}", (int dogId, int walkerId) =>
         CityId = dogToUpdate.CityId,
         ImageURL = dogToUpdate.ImageURL,
         WalkerId = dogToUpdate.WalkerId
+    });
+});
+// get walker with cities
+app.MapGet("/api/walker/{walkerId}/manage-cities", (int walkerId) =>
+{
+    // find walker
+    Walker walkerToSend = walkers.Find((walker) => walker.Id == walkerId);
+    // check if walker is found
+    if (walkerToSend == null)
+    {
+        return Results.BadRequest();
+    }
+    // find cities
+    List<WalkerCity> cityList = walkerCities.Where((walkerCity) => walkerCity.WalkerId == walkerId).ToList();
+    // return results ok with walkerDTO
+    return Results.Ok(new WalkerDTO
+    {
+        // id, name, image url, city list
+        Id = walkerToSend.Id,
+        Name = walkerToSend.Name,
+        ImageURL = walkerToSend.ImageURL,
+        WalkerCities = cityList.Select((walkerCity) => new WalkerCityDTO
+        {
+            // id, walkerId, cityId
+            Id = walkerCity.Id,
+            WalkerId = walkerCity.WalkerId,
+            CityId = walkerCity.CityId
+        }).ToList()
     });
 });
 // run app
