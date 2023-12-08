@@ -9,7 +9,7 @@ import { Walkers } from "./Walkers/Walkers";
 import { Cities } from "./Cities/Cities";
 import { DogDetail } from "./Dogs/DogDetail";
 import { AddDog } from "./Dogs/AddDog";
-import { ManageWalkerCity } from "./Walkers/ManageWalkerCity";
+import { ManageWalkerCities } from "./Walkers/ManageWalkerCities";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -19,7 +19,7 @@ root.render(
         <Route index element={<Home />} />
         <Route path="/walkers">
           <Route index element={<Walkers />} />
-          <Route path=":walkerId/manage-cities" element={<ManageWalkerCity />} />
+          <Route path=":walkerId/manage-cities" element={<ManageWalkerCities />} />
 
         </Route>
         <Route path="/cities" element={<Cities />} />

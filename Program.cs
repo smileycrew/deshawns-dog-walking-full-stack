@@ -261,18 +261,17 @@ app.MapGet("/api/walker-and-cities/{walkerId}", (int walkerId) =>
         return Results.NotFound();
     }
     List<WalkerCity> filteredWalkerCities = walkerCities.Where((walkerCity) => walkerCity.WalkerId == walkerToSend.Id).ToList();
+    List<City> filteredCities = filteredWalkerCities.Select((walkerCity) => cities.First((city) => city.Id == walkerCity.CityId)).ToList();
     return Results.Ok(new WalkerDTO
     {
         // id, name, image url
         Id = walkerToSend.Id,
         Name = walkerToSend.Name,
         ImageURL = walkerToSend.ImageURL,
-        WalkerCities = filteredWalkerCities.Select((walkerCity) => new WalkerCityDTO
+        Cities = filteredCities.Select((city) => new CityDTO
         {
-            // id, walkerId, cityId
-            Id = walkerCity.Id,
-            WalkerId = walkerCity.WalkerId,
-            CityId = walkerCity.CityId
+            Id = city.Id,
+            Name = city.Name
         }).ToList()
     });
 });
@@ -300,33 +299,23 @@ app.MapGet("/api/dog/{dogId}/walker/{walkerId}", (int dogId, int walkerId) =>
         WalkerId = dogToUpdate.WalkerId
     });
 });
-// get walker with cities
-app.MapGet("/api/walker/{walkerId}/manage-cities", (int walkerId) =>
+// update walker cities
+app.MapPut("/api/walkers/{walkerId}/update-cities", (int walkerId, List<City> newWalkerCities) =>
 {
-    // find walker
-    Walker walkerToSend = walkers.Find((walker) => walker.Id == walkerId);
-    // check if walker is found
-    if (walkerToSend == null)
+    // find the walker to update
+    Walker walker = walkers.Find((walker) => walker.Id == walkerId);
+    // remove previous walker-cities
+    walkerCities = walkerCities.Where((walkerCity) => walkerCity.WalkerId != walkerId).ToList();
+    // iterate the new walker's cities
+    foreach (City newWalkerCity in newWalkerCities)
     {
-        return Results.BadRequest();
-    }
-    // find cities
-    List<WalkerCity> cityList = walkerCities.Where((walkerCity) => walkerCity.WalkerId == walkerId).ToList();
-    // return results ok with walkerDTO
-    return Results.Ok(new WalkerDTO
-    {
-        // id, name, image url, city list
-        Id = walkerToSend.Id,
-        Name = walkerToSend.Name,
-        ImageURL = walkerToSend.ImageURL,
-        WalkerCities = cityList.Select((walkerCity) => new WalkerCityDTO
+        walkerCities.Add(new WalkerCity()
         {
-            // id, walkerId, cityId
-            Id = walkerCity.Id,
-            WalkerId = walkerCity.WalkerId,
-            CityId = walkerCity.CityId
-        }).ToList()
-    });
+            Id = walkerCities.Max((walkerCity) => walkerCity.Id) + 1,
+            WalkerId = walkerId,
+            CityId = newWalkerCity.Id
+        });
+    }
+    // check if the walker's city list contains city
 });
-// run app
 app.Run();

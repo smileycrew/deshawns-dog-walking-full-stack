@@ -60,15 +60,18 @@ export const deleteWalker = (walkerId) => {
 export const getWalkerAndCities = (walkerId) => {
   return fetch(`/api/walker-and-cities/${walkerId}`).then((response) => response.json())
 }
-// export const assignDog = (dogObject, walkerId) => {
-//   return fetch(`/api/dog/${dogObject.id}/walker/${walkerId}`, {
-//     method: "POST",
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//     body: JSON.stringify(dogObject)
-//   })
-// }
+// update dog with walkerId
 export const assignDog = (dogId, walkerId) => {
   return fetch(`/api/dog/${dogId}/walker/${walkerId}`).then((response) => response.json())
+}
+// assign cities to walker
+export const assignCitiesToWalker = (walkerId, newCities) => {
+  console.log("🚀 ~ file: apiManager.js:69 ~ assignCitiesToWalker ~ newCities:", newCities)
+  return fetch(`/api/walkers/${walkerId}/update-cities`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(newCities)
+  })
 }
