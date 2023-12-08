@@ -276,5 +276,28 @@ app.MapGet("/api/walker-and-cities/{walkerId}", (int walkerId) =>
         }).ToList()
     });
 });
+app.MapGet("/api/dog/{dogId}/walker/{walkerId}", (int dogId, int walkerId) =>
+{
+    Dog dogToUpdate = dogs.Find((dog) => dog.Id == dogId);
+    if (dogToUpdate == null)
+    {
+        return Results.BadRequest();
+    }
+    Walker walker = walkers.Find((walker) => walker.Id == walkerId);
+    if (walker == null)
+    {
+        return Results.BadRequest();
+    }
+    dogToUpdate.WalkerId = walker.Id;
+    return Results.Ok(new DogDTO
+    {
+        // id, name, cityId, imageURL, walkerId
+        Id = dogToUpdate.Id,
+        Name = dogToUpdate.Name,
+        CityId = dogToUpdate.CityId,
+        ImageURL = dogToUpdate.ImageURL,
+        WalkerId = dogToUpdate.WalkerId
+    });
+});
 // run app
 app.Run();
