@@ -3,6 +3,7 @@ import { getWalkers } from "../apiManager"
 import { CityDropdown } from "./CityDropdown"
 import { DeleteWalker } from "./DeleteWalker"
 import { AssignDogToWalker } from "./AssignDogToWalker"
+import { Link } from "react-router-dom"
 
 export const Walkers = () => {
 
@@ -26,8 +27,8 @@ export const Walkers = () => {
             <ul>
                 {walkersToDisplay.map((walker, index) => (
                     <li key={index}>
-                        <img className="h-40 w-40" src={walker?.imageURL} alt="" />
-                        <p>{walker?.name}</p>
+                        <img className="h-40 w-40" src={walker.imageURL} alt="" />
+                        <p><Link to={`/walkers/${walker.id}/manage-cities`}>{walker.name}</Link></p>
                         <AssignDogToWalker walkerId={walker.id} />
                         <DeleteWalker walkerId={walker.id} handleGetWalkers={handleGetWalkers} />
                     </li>

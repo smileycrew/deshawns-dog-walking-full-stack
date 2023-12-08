@@ -3,6 +3,7 @@ import { getWalkerAndCities } from "../apiManager"
 import { DogDropdown } from "./DogDropdown"
 
 export const AssignDogToWalker = ({ walkerId }) => {
+    
     const [viewDogs, setViewDogs] = useState(false)
     const [walkerAndCities, setWalkerAndCities] = useState([])
 
